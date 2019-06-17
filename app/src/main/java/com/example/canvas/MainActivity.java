@@ -4,8 +4,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +19,10 @@ import android.view.View;
 import com.example.canvas.view.PaintView;
 import com.ramotion.fluidslider.FluidSlider;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import butterknife.BindView;
@@ -30,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     PaintView paintView;
 
     DisplayMetrics displayMetrics;
-
 
 
     @Override
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.normal:
                 paintView.normal();
                 return true;
@@ -91,11 +97,11 @@ public class MainActivity extends AppCompatActivity {
     public void colorPickerDialog() {
         ColorPickerView colorPickerView;
         FluidSlider fluidSlider;
-        View colorPicker = View.inflate(this,R.layout.color_picker_dialog,null);
+        View colorPicker = View.inflate(this, R.layout.color_picker_dialog, null);
         colorPickerView = colorPicker.findViewById(R.id.colorPickerView);
         fluidSlider = colorPicker.findViewById(R.id.fluidSlider);
         fluidSlider.setBubbleText(String.valueOf(brushWidth));
-        fluidSlider.setPosition((float) brushWidth/100);
+        fluidSlider.setPosition((float) brushWidth / 100);
 
 
         AlertDialog builder = new AlertDialog.Builder(this)
@@ -112,21 +118,42 @@ public class MainActivity extends AppCompatActivity {
                 .show();
 
 
-        colorPickerView.subscribe((color, fromUser, shouldPropagate) ->  {
+        colorPickerView.subscribe((color, fromUser, shouldPropagate) -> {
             pickColor = color;
         });
 
         fluidSlider.setPositionListener(pos -> {
-            final String value = String.valueOf( (int)(pos * 100) );
-            brushWidth = Integer.parseInt(value);
-            fluidSlider.setBubbleText(value);
-            return Unit.INSTANCE;
-        }
+                    final String value = String.valueOf((int) (pos * 100));
+                    brushWidth = Integer.parseInt(value);
+                    fluidSlider.setBubbleText(value);
+                    return Unit.INSTANCE;
+                }
         );
 
+    }
 
+    FileOutputStream fos = null;
 
+    @OnClick(R.id.saveIv)
+    public void saveCanvas() {
+        Log.e("MainActivity", "saveCanvas: " + Environment.getExternalStorageDirectory());
+
+        try {
+            fos = new FileOutputStream(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS + "/ashu.jpeg");
+            Bitmap bitmap = Bitmap.createBitmap(paintView.getWidth(), paintView.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            paintView.draw(canvas);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
+
 }
