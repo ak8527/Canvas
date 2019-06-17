@@ -2,11 +2,14 @@ package com.example.canvas;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
@@ -133,12 +136,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     FileOutputStream fos = null;
+    File file = null;
 
     @OnClick(R.id.saveIv)
     public void saveCanvas() {
         Log.e("MainActivity", "saveCanvas: " + Environment.getExternalStorageDirectory());
 
         try {
+            file = new File(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS + "/ashu.jpeg");
             fos = new FileOutputStream(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS + "/ashu.jpeg");
             Bitmap bitmap = Bitmap.createBitmap(paintView.getWidth(), paintView.getHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
@@ -154,6 +159,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    @OnClick(R.id.shareIv)
+    public void share() {
+        saveCanvas();
+        shareMedia(file);
+    }
+
+    private void shareMedia(File file) {
+
+        String intentType = "jpeg" + "/*";
+
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        Uri uri = FileProvider.getUriForFile(this, "com.example.canvas.fileprovider", file);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        sharingIntent.setType(intentType);
+        startActivity(sharingIntent);
     }
 
 }
