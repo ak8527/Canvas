@@ -2,18 +2,26 @@ package com.example.canvas.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.EmbossMaskFilter;
 import android.graphics.MaskFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
+import com.example.canvas.R;
 import com.example.canvas.pojo.FingerPath;
 
 import java.util.ArrayList;
@@ -67,9 +75,9 @@ public class PaintView extends View {
 
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
-
         currentColor = DEFAULT_COLOR;
         strokeWidth = BRUSH_SIZE;
+
     }
 
     public void normal() {
@@ -93,6 +101,7 @@ public class PaintView extends View {
         normal();
         invalidate();
     }
+    static int i=0;
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -112,9 +121,10 @@ public class PaintView extends View {
             mCanvas.drawPath(fp.path, mPaint);
 
         }
-
+        Log.e("PainActivity", "onDraw: "+  i++);
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
         canvas.restore();
+
     }
 
     private void touchStart(float x, float y) {

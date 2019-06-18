@@ -4,73 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.example.canvas.view.PaintView
-        android:id="@+id/paintView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="56dp"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-
-    <LinearLayout
-        android:id="@+id/optionView"
+    <TextView
+        android:id="@+id/fsTextView"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif"
+        android:textColor="#B0BEC5"
+        android:text="Tap + to create a canvas"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/paintView">
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-        <ImageView
-            android:id="@+id/eraserIv"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
-            android:layout_weight="1"
-            android:src="@drawable/ic_double_sided_eraser" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <ImageView
-            android:id="@+id/saveIv"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
-            android:layout_weight="1"
-            android:src="@drawable/ic_save_black_24dp" />
-
-        <ImageView
-            android:id="@+id/paintIv"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
-            android:layout_weight="1"
-            android:src="@drawable/ic_brush_black_24dp" />
-
-        <ImageView
-            android:id="@+id/shareIv"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_share_black_24dp" />
-
-        <ImageView
-            android:id="@+id/stickerIv"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
-            android:layout_weight="1"
-            android:src="@drawable/ic_mood_black_24dp" />
-
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
