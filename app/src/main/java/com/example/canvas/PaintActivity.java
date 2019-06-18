@@ -201,7 +201,7 @@ public class PaintActivity extends AppCompatActivity {
         RecyclerView stickerRv = stickerPv.findViewById(R.id.stickerRv);
 
         DrawableResource drawableResource = new DrawableResource(this);
-        StickerAdaptor stickerAdaptor = new StickerAdaptor(0,drawableResource.getAllDrawableResource());
+        StickerAdaptor stickerAdaptor = new StickerAdaptor(1,drawableResource.getAllDrawableResource(),null);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
         stickerRv.setLayoutManager(gridLayoutManager);
         stickerRv.setAdapter(stickerAdaptor);
