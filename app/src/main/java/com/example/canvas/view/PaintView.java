@@ -6,20 +6,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.EmbossMaskFilter;
 import android.graphics.MaskFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.example.canvas.R;
 import com.example.canvas.pojo.FingerPath;
@@ -27,10 +21,10 @@ import com.example.canvas.pojo.FingerPath;
 import java.util.ArrayList;
 
 
-public class PaintView extends View {
+public class PaintView extends AppCompatImageView {
 
     public static int BRUSH_SIZE = 20;
-    public static int DEFAULT_COLOR = -2370561;
+    public static int DEFAULT_COLOR = Color.BLUE;
     public static  final int DEFAULT_BG_COLOR = Color.WHITE;
     private static final float TOUCH_TOLERANCE = 4;
     private float mX, mY;
@@ -40,13 +34,14 @@ public class PaintView extends View {
     private int currentColor;
     private int backgroundColor = DEFAULT_BG_COLOR;
     private int strokeWidth;
-    private boolean emboss;
     private boolean blur;
-    private MaskFilter mEmboss;
     private MaskFilter mBlur;
     private Bitmap mBitmap;
     private Canvas mCanvas;
+    private Bitmap imageBitmap = null;
     private Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
+    int height;
+    int width;
 
     public PaintView(Context context) {
         this(context, null);
@@ -64,16 +59,20 @@ public class PaintView extends View {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setXfermode(null);
         mPaint.setAlpha(0xff);
-
-        mEmboss = new EmbossMaskFilter(new float[] {1, 1, 1}, 0.4f, 6, 3.5f);
         mBlur = new BlurMaskFilter(5, BlurMaskFilter.Blur.NORMAL);
     }
 
     public void init(DisplayMetrics metrics) {
-        int height = metrics.heightPixels;
-        int width = metrics.widthPixels;
+        height = metrics.heightPixels;
+        width = metrics.widthPixels;
 
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+////        imageBitmap.setHeight(48);
+////        imageBitmap.setWidth(48);
+        if (imageBitmap != null)
+            imageBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.d1);
+
+    //    imageBitmap = Bitmap.createScaledBitmap(imageBitmap,,144,true);
         mCanvas = new Canvas(mBitmap);
         currentColor = DEFAULT_COLOR;
         strokeWidth = BRUSH_SIZE;
@@ -81,17 +80,10 @@ public class PaintView extends View {
     }
 
     public void normal() {
-        emboss = false;
-        blur = false;
-    }
-
-    public void emboss() {
-        emboss = true;
         blur = false;
     }
 
     public void blur() {
-        emboss = false;
         blur = true;
     }
 
@@ -101,35 +93,32 @@ public class PaintView extends View {
         normal();
         invalidate();
     }
-    static int i=0;
 
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.save();
         mCanvas.drawColor(backgroundColor);
-
         for (FingerPath fp : paths) {
             mPaint.setColor(fp.color);
             mPaint.setStrokeWidth(fp.strokeWidth);
             mPaint.setMaskFilter(null);
 
-            if (fp.emboss)
-                mPaint.setMaskFilter(mEmboss);
-            else if (fp.blur)
+             if (fp.blur)
                 mPaint.setMaskFilter(mBlur);
 
             mCanvas.drawPath(fp.path, mPaint);
 
         }
-        Log.e("PainActivity", "onDraw: "+  i++);
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+//        canvas.drawBitmap(imageBitmap,24,24,mBitmapPaint);
         canvas.restore();
 
     }
 
+
     private void touchStart(float x, float y) {
         mPath = new Path();
-        FingerPath fp = new FingerPath(currentColor, emboss, blur, strokeWidth, mPath);
+        FingerPath fp = new FingerPath(currentColor, blur, strokeWidth, mPath);
         paths.add(fp);
 
         mPath.reset();
@@ -172,7 +161,6 @@ public class PaintView extends View {
                 invalidate();
                 break;
         }
-
         return true;
     }
 }

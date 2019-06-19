@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PaintActivity">
+    tools:context=".activity.PaintActivity">
 
     <com.example.canvas.view.PaintView
         android:id="@+id/paintView"
@@ -16,7 +16,72 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <View
+        android:id="@+id/lineView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="#CFD8DC"
+        app:layout_constraintBottom_toTopOf="@+id/optionView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/clearIv"
+        android:layout_width="48dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="4dp"
+        android:background="#B0BEC5"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_autorenew_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/normalIv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paintView" />
+
+
+    <ImageView
+        android:id="@+id/blurIv"
+        android:layout_width="48dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="4dp"
+        android:background="#B0BEC5"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_blur_on_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/brushWidthIv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/normalIv" />
+
+    <ImageView
+        android:id="@+id/normalIv"
+        android:layout_width="48dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="4dp"
+        android:background="#B0BEC5"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_brush_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/blurIv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clearIv" />
+
+
+    <ImageView
+        android:id="@+id/brushWidthIv"
+        android:layout_width="48dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="4dp"
+        android:background="#B0BEC5"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_mode_edit_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/paintView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blurIv" />
 
 
     <LinearLayout
@@ -26,33 +91,56 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/paintView">
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <ImageView
             android:id="@+id/eraserIv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
             android:layout_weight="1"
+            android:contentDescription="@string/app_name"
+            android:padding="8dp"
             android:src="@drawable/ic_double_sided_eraser" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="#CFD8DC" />
 
         <ImageView
             android:id="@+id/saveIv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
             android:layout_weight="1"
+            android:contentDescription="@string/app_name"
+            android:padding="8dp"
             android:src="@drawable/ic_save_black_24dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="#CFD8DC" />
 
         <ImageView
             android:id="@+id/paintIv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
             android:layout_weight="1"
-            android:src="@drawable/ic_brush_black_24dp" />
+            android:contentDescription="@string/app_name"
+            android:padding="8dp"
+            android:src="@drawable/ic_color_lens_black_24dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="#CFD8DC" />
 
         <ImageView
             android:id="@+id/shareIv"
@@ -60,17 +148,32 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:contentDescription="@string/app_name"
+            android:padding="8dp"
             android:src="@drawable/ic_share_black_24dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="#CFD8DC" />
 
         <ImageView
             android:id="@+id/stickerIv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
             android:layout_weight="1"
+            android:contentDescription="@string/app_name"
+            android:padding="8dp"
             android:src="@drawable/ic_mood_black_24dp" />
 
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

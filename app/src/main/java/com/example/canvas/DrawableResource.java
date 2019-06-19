@@ -1,21 +1,10 @@
 package com.example.canvas;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class DrawableResource {
-    Context context;
 
-    public DrawableResource(Context context) {
-        this.context = context;
-    };
-
-    public  ArrayList<Integer> getAllDrawableResource() {
+    public ArrayList<Integer> getAllDrawableResource() {
        ArrayList<Integer>  stickerList = new ArrayList<>();
        stickerList.add(R.drawable.d1);
        stickerList.add(R.drawable.d2);

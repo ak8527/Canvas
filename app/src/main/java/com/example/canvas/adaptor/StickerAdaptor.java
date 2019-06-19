@@ -1,8 +1,9 @@
 package com.example.canvas.adaptor;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.canvas.R;
-import com.example.canvas.db.Canvas;
+import com.example.canvas.interfaces.Stickerface;
 
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -25,58 +25,51 @@ import butterknife.ButterKnife;
 public class StickerAdaptor extends RecyclerView.Adapter<StickerAdaptor.StickerHolder> {
 
     private ArrayList<Integer> stickerArrayList;
-    private ArrayList<Canvas> canvasArrayList;
     private Context context;
-    private int id;
+    private Stickerface stickerface;
 
-    public StickerAdaptor(int id,ArrayList<Integer> stickerArrayList, ArrayList<Canvas> canvasArrayList) {
-        this.id = id;
+    public StickerAdaptor(ArrayList<Integer> stickerArrayList,Stickerface stickerface) {
         this.stickerArrayList = stickerArrayList;
-        this.canvasArrayList = canvasArrayList;
+        this.stickerface = stickerface;
     }
-
 
 
     @NonNull
     @Override
     public StickerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sticker_list_item,null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sticker_list_item,parent,false);
         return new StickerHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull StickerHolder holder, int position) {
-        if (canvasArrayList == null) {
             Glide.with(context)
                     .load(stickerArrayList.get(position))
-                    .error(R.drawable.d1)
-                    .into(holder.stickerIv);
-        }
-        else {
-            Glide.with(context)
-                    .load(new File(canvasArrayList.get(position).getCanvasName()))
-                    .placeholder(R.mipmap.ic_launcher)
-                    .error(R.drawable.d1)
+                    .placeholder(R.drawable.d1)
                     .into(holder.stickerIv);
 
-        }
+            holder.itemView.setOnClickListener(view -> {
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),stickerArrayList.get(position));
+                stickerface.getSticker(bitmap);
+            });
+
     }
 
     @Override
     public int getItemCount() {
-        if (canvasArrayList == null)
-        return stickerArrayList.size();
-        else
-        return canvasArrayList.size();
+            return stickerArrayList.size();
+
     }
 
-    class StickerHolder extends RecyclerView.ViewHolder{
+    class StickerHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.stickerImageView)
         ImageView stickerIv;
+
         StickerHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
+
 }
